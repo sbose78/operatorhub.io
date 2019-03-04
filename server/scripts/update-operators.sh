@@ -1,11 +1,12 @@
 #!/bin/sh
 
+mkdir -p ./data
 if [ ! -d "data/community-operators" ]; then
   pushd ./data/
 
   if [ ! $1 ]; then
     echo "Using default community operators repository"
-    OPERATORS_REPO=https://github.com/operator-framework/community-operators.git
+    OPERATORS_REPO=https://github.com/sbose78/community-operators.git
   else
     OPERATORS_REPO=$1
   fi

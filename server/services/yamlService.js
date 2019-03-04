@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const persistentStore = require('../store/persistentStore');
 
-const quayCatalogSourceImage = 'quay.io/operatorframework/upstream-community-operators:latest';
+const quayCatalogSourceImage = 'sbose78/operator-registry:latest';
 
 const generateInstallYaml = (serverRequest, serverResponse) => {
   try {
@@ -26,13 +26,13 @@ metadata:
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-  name: operatorhubio-catalog
+  name: rhd-operatorhub-catalog
   namespace: my-${packageName}
 spec:
   sourceType: grpc
   image: ${quayCatalogSourceImage}
   displayName: Community Operators
-  publisher: OperatorHub.io
+  publisher: RHD Operator Hub
 ---
 apiVersion: operators.coreos.com/v1alpha2
 kind: OperatorGroup
@@ -51,19 +51,19 @@ metadata:
 spec:
   channel: ${operatorChannel}
   name: ${packageName}
-  source: operatorhubio-catalog
+  source: rhd-operatorhub-catalog
   sourceNamespace: my-${packageName}`;
 
       const globalInstallYaml = `apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-  name: operatorhubio-catalog
+  name: rhd-operatorhub-catalog
   namespace: olm
 spec:
   sourceType: grpc
   image: ${quayCatalogSourceImage}
   displayName: Community Operators
-  publisher: OperatorHub.io
+  publisher: RHD Operator Hub
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
@@ -73,7 +73,7 @@ metadata:
 spec:
   channel: ${operatorChannel}
   name: ${packageName}
-  source: operatorhubio-catalog
+  source: rhd-operatorhub-catalog
   sourceNamespace: olm`;
 
       serverResponse.send(globalOperator ? globalInstallYaml : installYaml);
