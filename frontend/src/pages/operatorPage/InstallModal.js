@@ -16,7 +16,7 @@ const olmYAMLFile = `${olmRepo}/master/deploy/upstream/quickstart/olm.yaml`;
 const INSTALL_OLM_COMMAND = `kubectl create -f ${olmYAMLFile}`;
 
 class InstallModal extends React.Component {
-  state = { installCommand: '', copied: false };
+  state = { installCommand: '', installCommandOpenShift4: '', copied: false };
 
   copyToClipboard = (e, command) => {
     e.preventDefault();
@@ -33,14 +33,15 @@ class InstallModal extends React.Component {
 
     if (operator !== prevProps.operator) {
       this.setState({
-        installCommand: `kubectl create -f ${window.location.origin}/install/${_.get(this.props.operator, 'name')}.yaml`
+        installCommand: `kubectl create -f ${window.location.origin}/install/${_.get(this.props.operator, 'name')}.yaml`,
+        installCommandOpenShift4: `kubectl create -f ${window.location.origin}/installopenshift4/${_.get(this.props.operator, 'name')}.yaml`
       });
     }
   }
 
   render() {
     const { show, operator, onClose, history } = this.props;
-    const { installCommand, copied } = this.state;
+    const { installCommand, installCommandOpenShift4, copied } = this.state;
 
     const tooltipText = copied ? 'Copied' : 'Copy to Clipboard';
     const tooltipContent = [
@@ -104,7 +105,7 @@ class InstallModal extends React.Component {
               </ExpandCollapse>
 
               <p>
-                Install the operator by running the following command:
+                Install the operator on OpenShift 3 by running the following command:
                 <InternalLink
                   className="pull-right"
                   route="/how-to-install-an-operator#What-happens-when-I-execute-the-'Install'-command-presented-in-the-pop-up?"
@@ -126,6 +127,31 @@ class InstallModal extends React.Component {
                   </a>
                 </Tooltip>
               </div>
+
+              <p>
+                Install the operator on OpenShift 4 by running the following command:
+                <InternalLink
+                  className="pull-right"
+                  route="/how-to-install-an-operator#What-happens-when-I-execute-the-'Install'-command-presented-in-the-pop-up?"
+                  history={history}
+                  text="What happens when I execute this command?"
+                />
+              </p>
+              <div className="oh-install-modal__install-command-container">
+                <div className="oh-code">{`$ ${installCommandOpenShift4}`}</div>
+                <Tooltip content={tooltipContent} styles={tooltipOverrides}>
+                  <a
+                    href="#"
+                    onClick={e => this.copyToClipboard(e, installCommandOpenShift4)}
+                    className="oh-install-modal__install-command-copy"
+                    onMouseEnter={this.onCopyEnter}
+                  >
+                    <Icon type="fa" name="clipboard" />
+                    <span className="sr-only">Copy to Clipboard</span>
+                  </a>
+                </Tooltip>
+              </div>
+
               <blockquote>
                 <p>
                   {globalOperator && (
