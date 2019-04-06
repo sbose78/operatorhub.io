@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const persistentStore = require('../store/persistentStore');
 
-const quayCatalogSourceImage = ' quay.io/sbose78/operator-registry:latest';
+const quayCatalogSourceImage = ' quay.io/redhat-developer/operator-registry:latest';
 
 const generateInstallYaml = (serverRequest, serverResponse) => {
   try {
