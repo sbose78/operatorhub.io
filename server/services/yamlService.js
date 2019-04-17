@@ -1,11 +1,14 @@
 const _ = require('lodash');
 const persistentStore = require('../store/persistentStore');
 
-const quayCatalogSourceImage = ' quay.io/redhat-developer/operator-registry:latest';
+quayCatalogSourceImage = 'quay.io/redhat-developer/operator-registry:latest';
 
 const generateInstallYaml = (serverRequest, serverResponse) => {
   try {
     const operatorName = serverRequest.url.replace('/install/', '').replace('.yaml', '');
+    if (operatorName.indexOf("devconsole") == -1) {
+      quayCatalogSourceImage = 'quay.io/shbose/rhd-operatorhub-registry:latest';
+    }
     persistentStore.getVersionedOperator(operatorName, (operator, err) => {
       if (err) {
         serverResponse.status(500).send(err);
@@ -88,6 +91,9 @@ spec:
 const generateInstallYaml4 = (serverRequest, serverResponse) => {
   try {
     const operatorName = serverRequest.url.replace('/installopenshift4/', '').replace('.yaml', '');
+    if (operatorName.indexOf("devconsole") == -1) {
+      quayCatalogSourceImage = 'quay.io/shbose/rhd-operatorhub-registry:latest';
+    }
     persistentStore.getVersionedOperator(operatorName, (operator, err) => {
       if (err) {
         serverResponse.status(500).send(err);
