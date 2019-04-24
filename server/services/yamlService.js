@@ -9,6 +9,9 @@ const generateInstallYaml = (serverRequest, serverResponse) => {
     if (operatorName.indexOf("devconsole") == -1) {
       quayCatalogSourceImage = 'quay.io/shbose/rhd-operatorhub-registry:latest';
     }
+    else {
+      quayCatalogSourceImage = 'quay.io/redhat-developer/operator-registry:latest';
+    }
     persistentStore.getVersionedOperator(operatorName, (operator, err) => {
       if (err) {
         serverResponse.status(500).send(err);
@@ -93,6 +96,9 @@ const generateInstallYaml4 = (serverRequest, serverResponse) => {
     const operatorName = serverRequest.url.replace('/installopenshift4/', '').replace('.yaml', '');
     if (operatorName.indexOf("devconsole") == -1) {
       quayCatalogSourceImage = 'quay.io/shbose/rhd-operatorhub-registry:latest';
+    }
+    else {
+      quayCatalogSourceImage = 'quay.io/redhat-developer/operator-registry:latest';
     }
     persistentStore.getVersionedOperator(operatorName, (operator, err) => {
       if (err) {
